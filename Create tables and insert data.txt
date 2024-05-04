@@ -1,0 +1,610 @@
+CREATE TABLE  program (
+    program_id varchar(10) primary key,
+    name  VARCHAR(25),
+    credit_points number(3) ,
+    date_commenced date ) ;
+
+CREATE TABLE  student_details (
+     student_id  VARCHAR(13) primary key,
+     name  VARCHAR(26) NOT NULL,
+     date_of_birth  DATE NOT NULL,
+     gender  CHAR(1) NOT NULL,
+     address  VARCHAR(50)  ,
+     phone_no  NUMBER(10)  ,
+     date_of_enrollement  DATE NOT NULL  
+);
+
+CREATE TABLE  campus (
+     c_id  VARCHAR(10) primary key ,
+     name  VARCHAR(30) NOT NULL,
+     address  VARCHAR(50) NOT NULL,
+     date_established  date NOT NULL,
+     director  VARCHAR(30) NOT NULL);
+
+
+CREATE TABLE  department (
+     dept_id  VARCHAR(10) primary key,
+     c_id  VARCHAR(10) REFERENCES  campus ( c_id ),
+     name  VARCHAR(30) NOT NULL,
+     HOD  VARCHAR(26) NOT NULL
+);
+
+CREATE TABLE  Staff (
+     emp_id  VARCHAR(10)  primary key,
+     dept_id  VARCHAR(10) REFERENCES  department ( dept_id ),
+     name  VARCHAR(26) NOT NULL,
+     role  VARCHAR(20) NOT NULL,
+     gender  VARCHAR(1) NOT NULL,
+     address  VARCHAR(40) NOT NULL,
+     phone_no  NUMBER(10) NOT NULL,
+     year_of_employment  INT NOT NULL,
+     years_completed  INT NOT NULL,
+     salary  INT  
+);
+
+
+
+CREATE TABLE  course (
+     course_id  VARCHAR(10) primary key,
+     name  VARCHAR(50) NOT NULL,
+     credit_points  NUMBER(1) NOT NULL
+);
+
+
+CREATE TABLE  Books (
+     ISBN  INT primary key,
+     title  VARCHAR(30) NOT NULL,
+     author  VARCHAR(30) NOT NULL,
+     edition  INT NOT NULL,
+     category  VARCHAR(20) NOT NULL,
+	publisher_name  VARCHAR(30) NOT NULL,
+	year_of_pub INT NOT NULL,
+     price  INT NOT NULL);
+
+create table Club(
+CLUB_id varchar(10) primary key,
+club_name varchar(20),
+Club_Rep varchar(20),
+Maximum_seats int,
+Member_joined int
+);
+
+
+create table FEES(
+program_id varchar(10) REFERENCES program(program_id),
+student_id  VARCHAR(13) REFERENCES  student_details( student_id),
+FEES_DUE INT,
+FEES_PAID INT NOT NULL,
+TOTAL_FEES INT NOT NULL );
+
+
+Create table course_teacher(
+	course_id  VARCHAR(10) REFERENCES  course ( course_id),
+	emp_id  VARCHAR(10) REFERENCES  Staff ( emp_id )
+);
+
+
+CREATE TABLE  dept_program (
+     dept_id  VARCHAR(10) REFERENCES  department ( dept_id ),
+     program_id  VARCHAR(10) REFERENCES  program ( program_id )
+);
+
+CREATE TABLE  program_course (
+     program_id VARCHAR(10) REFERENCES  program ( program_id ),
+     course_id  VARCHAR(10) REFERENCES  course ( course_id ),
+     semester number(1));
+
+CREATE TABLE  student_marks (
+     student_id  VARCHAR(13) REFERENCES  student_details ( student_id),
+     course_id  VARCHAR(10) REFERENCES  course ( course_id ),
+     internal_marks  INT,
+     external_marks  INT ,
+     total_marks  INT
+);
+
+
+ 
+
+CREATE TABLE  books_issued (
+     student_id  VARCHAR(13) REFERENCES  student_details ( student_id ),
+     ISBN  INT REFERENCES  Books ( ISBN ),
+     reserve_date  DATE NOT NULL,
+     due_date  DATE NOT NULL,
+     returned_on  DATE,
+     fine  INT  
+);
+
+
+
+Create table student_clubs(
+student_id varchar(13) references student_details(student_id),
+CLUB_id varchar(10) references Club(CLUB_id)
+);
+
+
+insert into program values('IT01BCAG','BCA (GENERAL)',128,'01-aug-2022');
+insert into program values('IT02BCACC','BCA (CLOUD COMPUTING)',128,'01-aug-2022');
+insert into program values('IT03BCADS','BCA (DATA SCIENCE)',128,'01-aug-2022');
+insert into program values('IT04BCAGD','BCA (GAME DEVELOPMENT)',128,'01-aug-2022');
+insert into program values('IT05BCAVFX','BCA (VISUAL EFFECTS)',128,'01-aug-2022');
+insert into program values('IT06BCAFM','BCA (FILM MAKING)',128,'01-aug-2022');
+
+
+
+INSERT INTO STUDENT_DETAILS values('22DBCAG001','ROHIT MISHRA','01-aug-2002','M','101,GANDHI CHOWK,RAIPUR,CHATTISGARH',7656435678,'04-jun-2022');
+
+INSERT INTO STUDENT_DETAILS values('22DBCAG002','ADARSH MISHRA','01-aug-2000','M','32,BILHARI,LUCKNOW,UP',9036435678,'30-jun-2022');
+
+INSERT INTO STUDENT_DETAILS values('22DBCAG003','VAISHNAVI P','13-APR-2002','F','23,HRBR LAYOUT,BANGALORE,KARNATAKA',7090435678,'01-jul-2022');
+
+INSERT INTO STUDENT_DETAILS values('22DBCAG004','PRIYA CHAUHAN','09-DEC-2004','F','3,KKBR LAYOUT,BANGALORE,KARNATAKA',7890435678,'06-jul-2022');
+
+INSERT INTO STUDENT_DETAILS values('22DBCAG005','INDU KUMARI','19-SEP-2003','F','4,RAJUL CITY,BANGALORE,KARNATAKA',6758435678,'03-jul-2022');
+
+INSERT INTO STUDENT_DETAILS values('22DBCAG006','SURYA K','02-MAY-2002','F','24,KALYAN NAGAR,BANGALORE,KARNATAKA',6290435678,'27-JUL-2022');
+
+INSERT INTO STUDENT_DETAILS values('22DBCAG007','ATUL YADAV','12-DEC-2000','M','301,GM PALYA,BANGALORE,KARNATAKA',9956435678,'17-jun-2022');
+
+INSERT INTO STUDENT_DETAILS values('22DBCAG008','BITTU YADAV','22-NOV-2002','M','9,VIJAY NAGAR,BANGALORE,KARNATAKA',9056435678,'17-jun-2022');
+
+INSERT INTO STUDENT_DETAILS values('22DBCAG009','FARAZ AKHTAR KHAN','20-AUG-2001','M','27,KALYAN NAGAR,BANGALORE,KARNATAKA',6576435678,'06-jul-2022');
+
+INSERT INTO STUDENT_DETAILS values('22DBCAG010','AMITESH SINHA','27-FEB-2003','M','23,OMBR LAYOUT,BANGALORE,KARNATAKA',6969435678,'11-jun-2022');
+
+
+INSERT INTO STUDENT_DETAILS values('22DBCACC01','HARIKKA REDDY','07-sep-2002','F','13TH CROSSROAD, BANASWADI,BANGALORE,KARNATAKA',9983432543,'4-jul-2022');
+INSERT INTO STUDENT_DETAILS values('22DBCACC02','RAHUL GUPTA','10-jul-2003','M','101,DOOMDOOMA,TINSUKIA,ASSAM',7860981234,'04-jun-2022');
+INSERT INTO STUDENT_DETAILS values('22DBCACC03','HARSHITA REDDY','11-dec-2003','F','101,KAMANHALLI,BANGLORE,KARNATAKA',8009987656,'03-jul-2022');
+
+INSERT INTO STUDENT_DETAILS values('22DBCADS001','REHMAN','07-jan-2001','M','5LANE,KASTURI NAGAR,BANGALORE,KARNATAKA',7654432353,'23-jun-2022');
+INSERT INTO STUDENT_DETAILS values('22DBCADS002','ALLEN SMITH','21-mar-2004','M','5,RAMURTHY NAGAR,BANGLORE,KARNATAKA',9008712345,'06-jul-2022');
+
+INSERT INTO STUDENT_DETAILS values('22DBCAVFX01','MUHAMMAD YUSUF','11-apr-2002','M','12,PANTHA CHOWK,SRINAGAR,KASHMIR',6789056743,'23-jul-2022');
+
+INSERT INTO STUDENT_DETAILS values('22DBCAFM01','CHANDAN KUMAR','30-apr-2003','M','HRBR,BANGALORE,KARNATAKA',8876567431,'1-jul-2022');
+
+INSERT INTO STUDENT_DETAILS values('22DBCAGD01','HARIHARAN RAJAN','01-apr-2002','M','11,MG Road,BANGLORE,KARNATAKA',6001134523,'06-jul-2022');
+INSERT INTO STUDENT_DETAILS values('22DBCAGD02','AISHA KHAN','01-jan-2003','F','12,PANTHA CHOWK,SRINAGAR,KASHMIR',6789056743,'12-jul-2022');
+
+
+
+
+INSERT INTO CAMPUS VALUES('NAAC00121','OMBR CAMPUS','#5,BHUVANAGIRI,OMBR LAYOUT,BANGALORE','01-jan-1999','SRI RAMGOPAL KRISHNAN');
+INSERT INTO CAMPUS VALUES('NAAC00122','MAIN CAMPUS','OFF HENRUR-BAGALUR MAIN ROAD,CHAGALATTI,BANGALORE','01-jan-1999','PROF. WILLIAM SMITH');
+INSERT INTO CAMPUS VALUES('NAAC00123','ITPL','#132,AECS LAYOUT,ITPL MAIN ROAD,BANGALORE','01-jan-2004','PROF. JACOB');
+INSERT INTO CAMPUS VALUES('NAAC00124','CITY CAMPUS','3RD CROSS,6TH MAIN,HRBR LAYOUT,BANGALORE','01-jan-2001','DR. HARSHITA');
+
+
+
+INSERT INTO DEPARTMENT VALUES('SOEC011','NAAC00124','SOEC','PROF.SANTOSH');
+INSERT INTO DEPARTMENT VALUES('SOM003','NAAC00124','SOM','PROF.JACOB');
+INSERT INTO DEPARTMENT VALUES('SOSS011','NAAC00124','SOSS','PROF. JAYANTHI M');
+INSERT INTO DEPARTMENT VALUES('DCCC001','NAAC00124','DCCC','ARCHANA A');
+
+
+
+
+INSERT INTO DEPT_PROGRAM VALUES('SOSS011','IT01BCAG');
+INSERT INTO DEPT_PROGRAM VALUES('SOSS011','IT02BCACC');
+INSERT INTO DEPT_PROGRAM VALUES('SOSS011','IT03BCADS');
+INSERT INTO DEPT_PROGRAM VALUES('SOSS011','IT04BCAGD');
+INSERT INTO DEPT_PROGRAM VALUES('SOSS011','IT05BCAVFX');
+INSERT INTO DEPT_PROGRAM VALUES('SOSS011','IT06BCAFM');
+
+
+
+INSERT INTO STAFF VALUES('02SOSS001','SOSS011','PROF. JAYANTHI M','ASSISTANT PROFESSOR','F','#60 11TH CROSS,BANASWADI','7890654321',2002,21,1000000);
+
+INSERT INTO STAFF VALUES('02SOSS002','SOSS011','PROF. SANTOSH','ASSISTANT PROFESSOR','M','#4 2ND CROSS,KALYAN NAGAR','9990654321',2002,21,800000);
+
+INSERT INTO STAFF VALUES('18SOSS003','SOSS011','MS. VASANTHI T','TEACHER','F','#6 9TH CROSS,HRBR','8890654321',2018,5,600000);
+
+INSERT INTO STAFF VALUES('20SOSS004','SOSS011','MS. KALAIVANI A','TEACHER','F','#10 9TH CROSS,KABANNALI','7990654323',2020,3,600000);
+
+INSERT INTO STAFF VALUES('11SOSS005','SOSS011','MS. MANJU S','TEACHER','F','#33 8TH CROSS,ITPL','6990654323',2011,12,600000);
+
+INSERT INTO STAFF VALUES('12SOSS006','SOSS011','MR. SATHISH P','TEACHER','M','#5 3RD CROSS,KAMANHALLI','7090654323',2012,11,600000);
+
+INSERT INTO STAFF VALUES('19SOSS007','SOSS011','MS. RADHA SRIDHARAN','TEACHER','F','#13 11TH CROSS,VASANT NAGAR','7190654323',2019,4,600000);
+
+INSERT INTO STAFF VALUES('22DCCC001','DCCC001','MS. SHAZIA KHATUN','TEACHER','F','#11 9TH CROSS,VIJAY NAGAR','7190654773',2022,1,500000);
+
+INSERT INTO STAFF VALUES('21DCCC002','DCCC001','MS. V KEERTHANA','TEACHER','F','#2 5TH CROSS,VIJAY NAGAR','8190554773',2021,2,500000);
+
+INSERT INTO STAFF VALUES('17SOSS008','SOSS011','MS. CHITRA K','TEACHER','F','#31 9TH CROSS,ITPL','6990654320',2017,6,600000);
+INSERT INTO STAFF VALUES('14DCCC003','DCCC001','MS. SUMAN KAUSHIK','TEACHER','F','#1 8TH CROSS,KRISHNA NAGAR','8190554663',2014,9,500000);
+INSERT INTO STAFF VALUES('18DCCC004','DCCC001','MR. KENGAL MURTHY K G','TEACHER','M','#3 6TH CROSS,RAJUL NAGAR','8190554791',2018,5,500000);
+INSERT INTO STAFF VALUES('22DCCC005','DCCC001','MS. SREEDEVI SANTHOSH','TEACHER','F','#2 7TH CROSS,PINK CITY','8190554731',2022,1,500000);
+
+
+insert into books values(1101,'The Soul of a New Machine','Tracy Kidder',03,'Computer Science','Addison-Wesley',1981,250);
+insert into books values(1102,'Superintelligence','Nick Bostrom',05,'Computer Science','Pearson Education',2000,500);
+insert into books values(1103,'Sam Walton ','Sam Walton',01,'Economics','Waltons',2011,1000);
+insert into books values(1104,'Giants of Enterprise ','Richard  Tedlow',05,'Economics','George Eastman',2010,700);
+insert into books values(1105,'Outliers','Malcolm Gladwell',06,'Economics','No Starch Press',2011,400);
+insert into books values(1106,'Freakonomics ','Steven D. Levitt ',06,'Economics','Wrox Press',2001,1500);
+insert into books values(1107,'The Wealth of Nations','Adam Smith',04,'Economics','Reilly Media',2012,1200);
+insert into books values(1108,'The White Tiger','Balram Hawai',04,'Economics','Sams Publishing',2008,360);
+insert into books values(1109,'Raavan','Amish Tripathy',05,'Indian Mythology','Westland ',2019,657);
+insert into books values(1110,'The Krishna Key','Ashwin Sanghi',02,'Indian Mytholog','Ravi Mohan',2012,800);
+insert into books values(1111,'Parva','S.L.Bhyrappa',01,'Indian Mytholog','Sahitya Akademi',2009,500);
+insert into books values(1112,'Dummies','Kenneth W. Boyd',07,'Accounting','Kenneth Boyd',2018,900);
+insert into books values(1113,'Profit First','Mike Michalowicz',03,'Accounting','Gildan Media, LLC',2017,900);
+
+
+
+insert into course values('8CSPL1141', 'PROBLEM SOLVING TECHNIQUES USING C', 3);
+insert into course values('8CSPL1151', 'PYTHON PROGRAMMING WITH DATA STRUCTURES', 3);
+insert into course values('8CSPL1161', 'PROBLEM SOLVING TECHNIQUES USING C LAB', 2);
+insert into course values('8CSPL1171', 'PYTHON PROGRAMMING WITH DATA STRUCTURE LAB', 2);
+insert into course values('8MATH1011', 'DISCRETE MATHEMATICS', 3);
+insert into course values('CPSAL1021', 'ORAL AND WRITTEN COMMUNICATION - 1', 2);
+
+insert into course values('CPSAL1031', 'HINDI', 4);
+insert into course values('CPSAL1041', 'KANNADA', 4);
+insert into course values('CPSAL1051', 'ENGLISH', 4);
+
+
+
+insert into course values('8CSGC1031', 'DATABASE MANAGEMENT SYSTEMS', 3);
+insert into course values('8CSPL1301', 'WEB DEVELOPMENT USING PYTHON AND DJANGO', 3);
+insert into course values('8CSGC1041', 'DATABASE MANAGEMENT SYSTEMS LAB', 2);
+insert into course values('8CSPL1311', 'WEB DEVELOPMENT USING PYTHON AND DJANGO LAB', 2);
+insert into course values('8STAT2031', 'PROBABILITY AND STATISTICS', 2);
+insert into course values('CPSAL2021', 'ORAL AND WRITTEN COMMUNICATION - 2', 2);
+insert into course values('CPSAE1041', 'MATHEMATICS FOR EVERYDAY LIFE', 1);
+insert into course values('CKSAM1051', 'INDIAN CONSTITUTION', 2);
+
+insert into course values('4IDSS1221', 'BASICS OF ELECTRONICS', 3);
+insert into course values('3IDSS1041', 'STOCK MARKET OPERATIONS', 3);
+insert into course values('6IDSS1021', 'HUMAN RESOURCE MANAGEMENT', 3);
+insert into course values('6IDSS1061', 'ENTREPRENEURSHIP', 3);
+insert into course values('7IDSS1061', 'COMMUNITY PSYCHOLOGY', 3);
+
+
+insert into program_course values('IT01BCAG','8CSPL1141',1);
+insert into program_course values('IT01BCAG','8CSPL1151',1);
+insert into program_course values('IT01BCAG','8CSPL1161',1);
+insert into program_course values('IT01BCAG','8CSPL1171',1);
+insert into program_course values('IT01BCAG','8MATH1011',1);
+insert into program_course values('IT01BCAG','CPSAL1021',1);
+
+insert into program_course values('IT01BCAG','CPSAL1031',1);
+insert into program_course values('IT01BCAG','CPSAL1041',1);
+insert into program_course values('IT01BCAG','CPSAL1051',1);
+
+insert into program_course values('IT01BCAG','8CSGC1031',2);
+insert into program_course values('IT01BCAG','8CSPL1301',2);
+insert into program_course values('IT01BCAG','8CSGC1041',2);
+insert into program_course values('IT01BCAG','8CSPL1311',2);
+insert into program_course values('IT01BCAG','8STAT2031',2);
+insert into program_course values('IT01BCAG','CPSAL2021',2);
+insert into program_course values('IT01BCAG','CPSAE1041',2);
+insert into program_course values('IT01BCAG','CKSAM1051',2);
+
+insert into program_course values('IT01BCAG','4IDSS1221',2);
+insert into program_course values('IT01BCAG','3IDSS1041',2);
+insert into program_course values('IT01BCAG','6IDSS1021',2);
+insert into program_course values('IT01BCAG','6IDSS1061',2);
+insert into program_course values('IT01BCAG','7IDSS1061',2);
+
+
+
+insert into COURSE_TEACHER values('8CSPL1141','12SOSS006');
+insert into COURSE_TEACHER values('8CSPL1151','11SOSS005');
+insert into COURSE_TEACHER values('8CSPL1161','17SOSS008');
+insert into COURSE_TEACHER values('8CSPL1171','11SOSS005');
+insert into COURSE_TEACHER values('8MATH1011','02SOSS002');
+insert into COURSE_TEACHER values('CPSAL1021','22DCCC001');
+
+insert into COURSE_TEACHER values('CPSAL1031', '14DCCC003');
+insert into COURSE_TEACHER values('CPSAL1041', '18DCCC004');
+insert into COURSE_TEACHER values('CPSAL1051', '22DCCC005');
+
+
+insert into COURSE_TEACHER values('8CSGC1031', '20SOSS004');
+insert into COURSE_TEACHER values('8CSPL1301', '02SOSS001');
+insert into COURSE_TEACHER values('8CSGC1041', '18SOSS003');
+insert into COURSE_TEACHER values('8CSPL1311', '20SOSS004');
+insert into COURSE_TEACHER values('8STAT2031', '02SOSS002');
+insert into COURSE_TEACHER values('CPSAL2021', '21DCCC002');
+
+
+insert into club values('SOSS2001','WIZTECH','MR.KHAN',100,6);
+insert into club values('SOSS2012','WEBSTERS','MS.SMITH',100,5);
+insert into club values('SOSS2010','GAMEHUB','MR.JACOB',100,8);
+
+INSERT INTO STUDENT_CLUBs VALUES('22DBCAG001','SOSS2001');
+INSERT INTO STUDENT_CLUBs VALUES('22DBCAG002','SOSS2012');
+INSERT INTO STUDENT_CLUBs VALUES('22DBCAG003','SOSS2001');
+INSERT INTO STUDENT_CLUBs VALUES('22DBCAG004','SOSS2010');
+INSERT INTO STUDENT_CLUBs VALUES('22DBCAG005','SOSS2001');
+INSERT INTO STUDENT_CLUBs VALUES('22DBCAG006','SOSS2012');
+INSERT INTO STUDENT_CLUBs VALUES('22DBCAG007','SOSS2010');
+INSERT INTO STUDENT_CLUBs VALUES('22DBCAG008','SOSS2012');
+INSERT INTO STUDENT_CLUBs VALUES('22DBCAG009','SOSS2010');
+INSERT INTO STUDENT_CLUBs VALUES('22DBCAG010','SOSS2010');
+INSERT INTO STUDENT_CLUBs VALUES('22DBCACC01','SOSS2001');
+INSERT INTO STUDENT_CLUBs VALUES('22DBCACC02','SOSS2001');
+INSERT INTO STUDENT_CLUBs VALUES('22DBCACC03','SOSS2010');
+INSERT INTO STUDENT_CLUBs VALUES('22DBCADS001','SOSS2010');
+INSERT INTO STUDENT_CLUBs VALUES('22DBCADS002','SOSS2012');
+INSERT INTO STUDENT_CLUBs VALUES('22DBCAFM01','SOSS2010');
+INSERT INTO STUDENT_CLUBs VALUES('22DBCAVFX01','SOSS2001');
+INSERT INTO STUDENT_CLUBs VALUES('22DBCAGD01','SOSS2010');
+INSERT INTO STUDENT_CLUBs VALUES('22DBCAGD02','SOSS2012');
+
+
+INSERT INTO FEES values('IT01BCAG','22DBCAG001',0,90000,90000);
+INSERT INTO FEES values('IT01BCAG','22DBCAG002',45000,45000,90000);
+INSERT INTO FEES values('IT01BCAG','22DBCAG003',0,90000,90000);
+INSERT INTO FEES values('IT01BCAG','22DBCAG004',0,90000,90000);
+INSERT INTO FEES values('IT01BCAG','22DBCAG005',45000,45000,90000);
+INSERT INTO FEES values('IT01BCAG','22DBCAG006',0,90000,90000);
+INSERT INTO FEES values('IT01BCAG','22DBCAG007',45000,45000,90000);
+INSERT INTO FEES values('IT01BCAG','22DBCAG008',0,90000,90000);
+INSERT INTO FEES values('IT01BCAG','22DBCAG009',45000,45000,90000);
+INSERT INTO FEES values('IT01BCAG','22DBCAG010',0,90000,90000);
+
+INSERT INTO FEES values('IT02BCACC','22DBCACC01',0,90000,90000);
+INSERT INTO FEES values('IT02BCACC','22DBCACC02',45000,45000,90000);
+INSERT INTO FEES values('IT02BCACC','22DBCACC03',0,90000,90000);
+
+INSERT INTO FEES values('IT03BCADS','22DBCADS001',0,90000,90000);
+INSERT INTO FEES values('IT03BCADS','22DBCADS002',0,90000,90000);
+
+INSERT INTO FEES values('IT05BCAVFX','22DBCAVFX01',45000,45000,90000);
+
+INSERT INTO FEES values('IT06BCAFM','22DBCAFM01',0,90000,90000);
+
+INSERT INTO FEES values('IT04BCAGD','22DBCAGD01',45000,45000,90000);
+INSERT INTO FEES values('IT04BCAGD','22DBCAGD02',0,90000,90000);
+
+
+
+
+insert into books_issued values('22DBCAGD02',1108,'01-feb-2023','08-feb-2023','08-feb-2023',0);
+
+insert into books_issued values('22DBCAVFX01',1102,'04-feb-2023','11-feb-2023','13-feb-2023',10);
+
+insert into books_issued values('22DBCADS002',1106,'17-feb-2023','24-feb-2023','24-feb-2023',0);
+
+insert into books_issued values('22DBCADS001',1113,'28-feb-2023','07-mar-2023','07-mar-2023',0);
+
+insert into books_issued values('22DBCACC03',1101,'17-mar-2023','24-mar-2023','28-mar-2023',20);
+
+insert into books_issued values('22DBCAG008',1104,'17-mar-2023','24-mar-2023','24-mar-2023',0);
+
+insert into books_issued values('22DBCAG004',1110,'20-mar-2023','27-mar-2023','29-mar-2023',10);
+
+insert into books_issued values('22DBCACC01',1111,'28-mar-2023','04-apr-2023','04-apr-2023',0);
+
+insert into books_issued values('22DBCACC02',1108,'04-apr-2023','11-apr-2023','11-apr-2023',0);
+
+insert into books_issued values('22DBCAG009',1112,'06-apr-2023','13-apr-2023','13-apr-2023',0);
+
+insert into books_issued values('22DBCAG010',1113,'07-apr-2023','14-apr-2023','17-apr-2023',15);
+
+insert into books_issued values('22DBCAFM01',1106,'10-apr-2023','17-apr-2023','17-apr-2023',0);
+
+
+CREATE OR REPLACE TRIGGER 
+calconinsert
+BEFORE INSERT ON student_marks
+FOR EACH ROW 
+BEGIN 
+  :NEW.total_marks := :NEW.internal_marks + :NEW.external_marks;
+  DBMS_OUTPUT.PUT_LINE(' [AFTER INSERT] Total marks = ' ||:NEW.total_marks);
+END;
+/
+
+
+CREATE OR REPLACE TRIGGER 
+calc
+BEFORE UPDATE OF internal_marks, external_marks ON student_marks
+FOR EACH ROW 
+BEGIN 
+  :NEW.total_marks := :NEW.internal_marks + :NEW.external_marks;
+  DBMS_OUTPUT.PUT_LINE(' [AFTER UPDATE] Total marks = ' ||:NEW.total_marks);
+END;
+/
+
+
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG001','8CSPL1141',39,43);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG001','8CSPL1151',33,46);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG001','8CSPL1161',36,47);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG001','8CSPL1171',37,35);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG001','8MATH1011',32,39);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG001','CPSAL1021',43,49);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG001','CPSAL1031',45,44);
+
+
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG002','8CSPL1141',32,41);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG002','8CSPL1151',38,45);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG002','8CSPL1161',31,33);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG002','8CSPL1171',39,35);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG002','8MATH1011',32,49);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG002','CPSAL1021',33,44);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG002','CPSAL1031',41,41);
+
+
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG003','8CSPL1141',36,42);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG003','8CSPL1151',43,49);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG003','8CSPL1161',46,41);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG003','8CSPL1171',33,39);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG003','8MATH1011',37,32);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG003','CPSAL1021',45,36);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG003','CPSAL1041',48,45);
+
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG004','8CSPL1141',46,32);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG004','8CSPL1151',41,47);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG004','8CSPL1161',42,48);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG004','8CSPL1171',31,36);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG004','8MATH1011',35,34);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG004','CPSAL1021',43,32);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG004','CPSAL1041',41,41);
+
+
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG005','8CSPL1141',31,42);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG005','8CSPL1151',46,46);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG005','8CSPL1161',47,44);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG005','8CSPL1171',31,33);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG005','8MATH1011',39,32);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG005','CPSAL1021',35,31);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG005','CPSAL1041',38,49);
+
+
+
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG006','8CSPL1141',36,41);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG006','8CSPL1151',43,47);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG006','8CSPL1161',40,40);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG006','8CSPL1171',31,37);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG006','8MATH1011',30,36);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG006','CPSAL1021',40,32);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG006','CPSAL1041',48,45);
+
+
+
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG007','8CSPL1141',35,40);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG007','8CSPL1151',40,41);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG007','8CSPL1161',41,40);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG007','8CSPL1171',37,30);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG007','8MATH1011',29,45);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG007','CPSAL1021',28,30);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG007','CPSAL1051',47,35);
+
+
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG008','8CSPL1141',34,30);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG008','8CSPL1151',41,40);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG008','8CSPL1161',43,41);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG008','8CSPL1171',30,33);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG008','8MATH1011',30,31);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG008','CPSAL1021',41,32);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG008','CPSAL1051',42,43);
+
+
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG009','8CSPL1141',36,41);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG009','8CSPL1151',40,40);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG009','8CSPL1161',40,41);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG009','8CSPL1171',34,30);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG009','8MATH1011',33,31);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG009','CPSAL1021',42,33);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG009','CPSAL1051',47,37);
+
+
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG010','8CSPL1141',33,42);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG010','8CSPL1151',43,40);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG010','8CSPL1161',42,41);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG010','8CSPL1171',33,31);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG010','8MATH1011',30,32);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG010','CPSAL1021',41,36);
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCAG010','CPSAL1051',38,40);
+
+
+insert into student_marks(student_id,course_id) values('22DBCAG001','8CSGC1031');
+insert into student_marks(student_id,course_id) values('22DBCAG001','8CSPL1301');
+insert into student_marks(student_id,course_id) values('22DBCAG001','8CSGC1041');
+insert into student_marks(student_id,course_id) values('22DBCAG001','8CSPL1311');
+insert into student_marks(student_id,course_id) values('22DBCAG001','8STAT2031');
+insert into student_marks(student_id,course_id) values('22DBCAG001','CPSAL2021');
+insert into student_marks(student_id,course_id) values('22DBCAG001','CPSAE1041');
+insert into student_marks(student_id,course_id) values('22DBCAG001','CKSAM1051');
+insert into student_marks(student_id,course_id) values('22DBCAG001','4IDSS1221');
+
+insert into student_marks(student_id,course_id) values('22DBCAG002','8CSGC1031');
+insert into student_marks(student_id,course_id) values('22DBCAG002','8CSPL1301');
+insert into student_marks(student_id,course_id) values('22DBCAG002','8CSGC1041');
+insert into student_marks(student_id,course_id) values('22DBCAG002','8CSPL1311');
+insert into student_marks(student_id,course_id) values('22DBCAG002','8STAT2031');
+insert into student_marks(student_id,course_id) values('22DBCAG002','CPSAL2021');
+insert into student_marks(student_id,course_id) values('22DBCAG002','CPSAE1041');
+insert into student_marks(student_id,course_id) values('22DBCAG002','CKSAM1051');
+insert into student_marks(student_id,course_id) values('22DBCAG002','4IDSS1221');
+
+insert into student_marks(student_id,course_id) values('22DBCAG003','8CSGC1031');
+insert into student_marks(student_id,course_id) values('22DBCAG003','8CSPL1301');
+insert into student_marks(student_id,course_id) values('22DBCAG003','8CSGC1041');
+insert into student_marks(student_id,course_id) values('22DBCAG003','8CSPL1311');
+insert into student_marks(student_id,course_id) values('22DBCAG003','8STAT2031');
+insert into student_marks(student_id,course_id) values('22DBCAG003','CPSAL2021');
+insert into student_marks(student_id,course_id) values('22DBCAG003','CPSAE1041');
+insert into student_marks(student_id,course_id) values('22DBCAG003','CKSAM1051');
+insert into student_marks(student_id,course_id) values('22DBCAG003','3IDSS1041');
+
+insert into student_marks(student_id,course_id) values('22DBCAG004','8CSGC1031');
+insert into student_marks(student_id,course_id) values('22DBCAG004','8CSPL1301');
+insert into student_marks(student_id,course_id) values('22DBCAG004','8CSGC1041');
+insert into student_marks(student_id,course_id) values('22DBCAG004','8CSPL1311');
+insert into student_marks(student_id,course_id) values('22DBCAG004','8STAT2031');
+insert into student_marks(student_id,course_id) values('22DBCAG004','CPSAL2021');
+insert into student_marks(student_id,course_id) values('22DBCAG004','CPSAE1041');
+insert into student_marks(student_id,course_id) values('22DBCAG004','CKSAM1051');
+insert into student_marks(student_id,course_id) values('22DBCAG004','3IDSS1041');
+
+
+insert into student_marks(student_id,course_id) values('22DBCAG005','8CSGC1031');
+insert into student_marks(student_id,course_id) values('22DBCAG005','8CSPL1301');
+insert into student_marks(student_id,course_id) values('22DBCAG005','8CSGC1041');
+insert into student_marks(student_id,course_id) values('22DBCAG005','8CSPL1311');
+insert into student_marks(student_id,course_id) values('22DBCAG005','8STAT2031');
+insert into student_marks(student_id,course_id) values('22DBCAG005','CPSAL2021');
+insert into student_marks(student_id,course_id) values('22DBCAG005','CPSAE1041');
+insert into student_marks(student_id,course_id) values('22DBCAG005','CKSAM1051');
+insert into student_marks(student_id,course_id) values('22DBCAG005','3IDSS1041');
+
+
+insert into student_marks(student_id,course_id) values('22DBCAG006','8CSGC1031');
+insert into student_marks(student_id,course_id) values('22DBCAG006','8CSPL1301');
+insert into student_marks(student_id,course_id) values('22DBCAG006','8CSGC1041');
+insert into student_marks(student_id,course_id) values('22DBCAG006','8CSPL1311');
+insert into student_marks(student_id,course_id) values('22DBCAG006','8STAT2031');
+insert into student_marks(student_id,course_id) values('22DBCAG006','CPSAL2021');
+insert into student_marks(student_id,course_id) values('22DBCAG006','CPSAE1041');
+insert into student_marks(student_id,course_id) values('22DBCAG006','CKSAM1051');
+insert into student_marks(student_id,course_id) values('22DBCAG006','6IDSS1021');
+
+insert into student_marks(student_id,course_id) values('22DBCAG007','8CSGC1031');
+insert into student_marks(student_id,course_id) values('22DBCAG007','8CSPL1301');
+insert into student_marks(student_id,course_id) values('22DBCAG007','8CSGC1041');
+insert into student_marks(student_id,course_id) values('22DBCAG007','8CSPL1311');
+insert into student_marks(student_id,course_id) values('22DBCAG007','8STAT2031');
+insert into student_marks(student_id,course_id) values('22DBCAG007','CPSAL2021');
+insert into student_marks(student_id,course_id) values('22DBCAG007','CPSAE1041');
+insert into student_marks(student_id,course_id) values('22DBCAG007','CKSAM1051');
+insert into student_marks(student_id,course_id) values('22DBCAG007','6IDSS1061');
+
+
+insert into student_marks(student_id,course_id) values('22DBCAG008','8CSGC1031');
+insert into student_marks(student_id,course_id) values('22DBCAG008','8CSPL1301');
+insert into student_marks(student_id,course_id) values('22DBCAG008','8CSGC1041');
+insert into student_marks(student_id,course_id) values('22DBCAG008','8CSPL1311');
+insert into student_marks(student_id,course_id) values('22DBCAG008','8STAT2031');
+insert into student_marks(student_id,course_id) values('22DBCAG008','CPSAL2021');
+insert into student_marks(student_id,course_id) values('22DBCAG008','CPSAE1041');
+insert into student_marks(student_id,course_id) values('22DBCAG008','CKSAM1051');
+insert into student_marks(student_id,course_id) values('22DBCAG008','6IDSS1061');
+
+
+insert into student_marks(student_id,course_id) values('22DBCAG009','8CSGC1031');
+insert into student_marks(student_id,course_id) values('22DBCAG009','8CSPL1301');
+insert into student_marks(student_id,course_id) values('22DBCAG009','8CSGC1041');
+insert into student_marks(student_id,course_id) values('22DBCAG009','8CSPL1311');
+insert into student_marks(student_id,course_id) values('22DBCAG009','8STAT2031');
+insert into student_marks(student_id,course_id) values('22DBCAG009','CPSAL2021');
+insert into student_marks(student_id,course_id) values('22DBCAG009','CPSAE1041');
+insert into student_marks(student_id,course_id) values('22DBCAG009','CKSAM1051');
+insert into student_marks(student_id,course_id) values('22DBCAG009','7IDSS1061');
+
+insert into student_marks(student_id,course_id) values('22DBCAG010','8CSGC1031');
+insert into student_marks(student_id,course_id) values('22DBCAG010','8CSPL1301');
+insert into student_marks(student_id,course_id) values('22DBCAG010','8CSGC1041');
+insert into student_marks(student_id,course_id) values('22DBCAG010','8CSPL1311');
+insert into student_marks(student_id,course_id) values('22DBCAG010','8STAT2031');
+insert into student_marks(student_id,course_id) values('22DBCAG010','CPSAL2021');
+insert into student_marks(student_id,course_id) values('22DBCAG010','CPSAE1041');
+insert into student_marks(student_id,course_id) values('22DBCAG010','CKSAM1051');
+insert into student_marks(student_id,course_id) values('22DBCAG010','7IDSS1061');
+
+
+
+

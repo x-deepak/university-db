@@ -1,0 +1,119 @@
+-------------------------------------------------------------------------------------------
+Q1.   Display the marks scored by a particular student in  all courses in 1st semester.
+-------------------------------------------------------------------------------------------
+
+
+select d.name, c.name, m.total_marks,p.semester from student_details d, course c, 
+student_marks m, program_course p where d.student_id='22DBCAG001' and m.student_id = '22DBCAG001' 
+and m.course_id = c.course_id and c.course_id=p.course_id and p.semester=1;
+
+
+-------------------------------------------------------------------------------------------
+Q2.   Display the details of books issued by each students.
+-------------------------------------------------------------------------------------------
+
+select s.name as STUDENT_NAME,b.title AS BOOK_TITLE,i.reserve_date,i.due_date,i.returned_on,i.fine from student_details s, books_issued i, books b 
+where s.student_id=i.student_id and i.isbn=b.isbn order by i.reserve_date;
+
+
+-------------------------------------------------------------------------------------------
+Q3.   Display the no. of student in a particular department.
+-------------------------------------------------------------------------------------------
+
+
+select d.name as DEPARTMENT, count(f.student_id) as No_OF_STUDENT from department d, 
+dept_program dp, program p, fees f where d.name='SOSS' and d.dept_id=dp.dept_id and 
+dp.program_id=p.program_id and p.program_id=f.program_id group by d.name;
+
+
+-------------------------------------------------------------------------------------------
+Q4.   Display the names of teachers and the courses they are teaching.
+-------------------------------------------------------------------------------------------
+
+
+select s.name as Teacher_Name, c.name as Course_Name from staff s,course_teacher t,
+ course c where s.emp_id=t.emp_id and t.course_id=c.course_id;
+
+
+-------------------------------------------------------------------------------------------
+Q5.   Display the names of courses that have 3 credits.
+-------------------------------------------------------------------------------------------
+
+select c.name as COURSE_NAME,c.credit_points from course c where c.credit_points=3;
+
+-------------------------------------------------------------------------------------------
+Q6.   Update the salary of staff that joined the instituition before 2015 by 8%.
+-------------------------------------------------------------------------------------------
+
+update staff set salary = salary + (salary * 8/100) where year_of_employment<2015;
+
+---------------------BEFORE/AFTER : TO CHECK SALARY OF STAFF:----------------------------
+
+select NAME,YEAR_OF_EMPLOYMENT,SALARY from staff;
+
+-------------------------------------------------------------------------------------------
+Q7.  Display the members associated with each CLUB along with the names?
+-------------------------------------------------------------------------------------------
+
+select c.club_name, s.name as Student_Name from club c, student_clubs sc, student_details s 
+where c.club_id=sc.club_id and sc.student_id=s.student_id order by c.club_name;
+
+-------------------------------------------------------------------------------------------
+Q8. Display the student names whose fees payment is pending.
+-------------------------------------------------------------------------------------------
+
+select s.name as Student_name,f.fees_due,f.total_fees from student_details s, fees f 
+where s.student_id=f.student_id and f.fees_due!=0;
+
+-------------------------------------------------------------------------------------------
+Q9. Display the teacher names and the name of their department.
+-------------------------------------------------------------------------------------------
+
+select s.name as Teacher,d.name as Department from staff s, department d where d.dept_id=s.dept_id;
+
+-------------------------------------------------------------------------------------------
+Q10.   Create a trigger that updates the TOTAL_MARKS  when you insert or update
+      INTERNAL AND EXTERNAL MARKS in student_marks table.
+-------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE TRIGGER 
+calconinsert
+BEFORE INSERT ON student_marks
+FOR EACH ROW 
+BEGIN 
+  :NEW.total_marks := :NEW.internal_marks + :NEW.external_marks;
+  DBMS_OUTPUT.PUT_LINE(' [AFTER INSERT] Total marks = ' ||:NEW.total_marks);
+END;
+/
+
+
+CREATE OR REPLACE TRIGGER 
+calc
+BEFORE UPDATE OF internal_marks, external_marks ON student_marks
+FOR EACH ROW 
+BEGIN 
+  :NEW.total_marks := :NEW.internal_marks + :NEW.external_marks;
+  DBMS_OUTPUT.PUT_LINE(' [AFTER UPDATE] Total marks = ' ||:NEW.total_marks);
+END;
+/
+-----------------Sample Code to fire trigger--------------------
+
+update student_marks set internal_marks=45,external_marks=42
+where student_id='22DBCAG001' and course_id='8CSGC1031';
+
+update student_marks set internal_marks=47,external_marks=41
+where student_id='22DBCAG001' and course_id='8CSPL1301';
+
+update student_marks set internal_marks=30,external_marks=43
+where student_id='22DBCAG001' and course_id='8CSGC1041';
+
+
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCACC01','8CSPL1141',39,43);
+
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCACC01','8CSPL1151',33,46);
+
+insert into student_marks(student_id,course_id,internal_marks,external_marks) values('22DBCACC01','8CSPL1161',36,47);
+
+-------------------------------------------------------------------------------------------
+
+
