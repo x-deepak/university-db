@@ -1,1 +1,1 @@
-"# university-db" 
+# university-db
